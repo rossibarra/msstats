@@ -1,3 +1,13 @@
+
+Makefile
+config.h
+config.log
+config.status
+msstats.lsm
+msstats.spec
+src/Makefile
+stamp-h
+
 # Compiled Object files
 *.slo
 *.lo
