@@ -40,7 +40,7 @@ void calcstats(const SimData & d, const unsigned & mincount);
 
 int main(int argc, char *argv[]) 
 {
-  std::vector<int> config;
+  std::vector<unsigned int> config;
   bool multipop = false;
   int mincount = 1;
   for(int arg = 1 ; arg < argc ; ++arg)
@@ -53,6 +53,12 @@ int main(int argc, char *argv[])
 	    {
 	      config.push_back(atoi(argv[++arg]));
 	    }
+
+	  if (config.size()>2) 
+	  	{
+			cerr << "Can currently only do two populations.";
+			exit(1);
+		}
 	}
       else if (string(argv[arg]) == "-m")
 	{
@@ -123,6 +129,7 @@ int main(int argc, char *argv[])
 	      cout << rep << '\t' << i << '\t';
 	      calcstats(d2,mincount);
 	    }
+	 FST fst(&d, config.size(), &config[0]);
 	}
       ++rep;
     } 
