@@ -1,8 +1,9 @@
+seedms
 src/.deps/
+src/.msstats.cc.swp
 src/mssfs
-src/msstatsMakefile
-Makefile
 src/msstats
+Makefile
 config.h
 config.log
 config.status
