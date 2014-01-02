@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
 {
   std::vector<unsigned int> config;
   bool multipop = false;
+  bool fstats = false;
   int mincount = 1;
   for(int arg = 1 ; arg < argc ; ++arg)
     {
@@ -54,17 +55,24 @@ int main(int argc, char *argv[])
 	      config.push_back(atoi(argv[++arg]));
 	    }
 
-	  if (config.size()>2) 
-	  	{
-			cerr << "Can currently only do two populations.";
-			exit(1);
-		}
 	}
       else if (string(argv[arg]) == "-m")
 	{
 	  mincount = atoi(argv[++arg]);
 	}
+      else if (string(argv[arg]) == "-F")
+	{
+		fstats=true;
+	} 
     }
+	  //Hack because right now only does Fst for 2 pops
+	if (config.size()>2 && fstats ) 
+	  	{
+			cerr << "\nmsstats with the Fst option can currently only do two populations.\n\n";
+			exit(1);
+		}
+
+
   int total = std::accumulate(config.begin(),config.end(),0,plus<int>());
   SimParams p;
   p.fromfile(stdin);
@@ -98,7 +106,7 @@ int main(int argc, char *argv[])
 	    << "rosasrf\t"
 	    << "rosasru\t"
 	    << "zns";
-  if(multipop)
+  if(multipop && fstats)
     {
       std::cout << "\tunique\tshared\tfixed\tFst";
     }	
@@ -125,10 +133,10 @@ int main(int argc, char *argv[])
 	  */
 		
 	 // Do FST calcs
-	  FST fst(&d, config.size(), &config[0]);
-	 std::set<double> shared = fst.shared(0,1);
-	  std::set<double> fixed = fst.fixed(0,1);
-	  std::pair<std::set<double>,std::set<double> > priv = fst.Private(0,1);
+		FST fst(&d, config.size(), &config[0]);
+		std::set<double> shared = fst.shared(0,1);
+	 	std::set<double> fixed = fst.fixed(0,1);
+	  	std::pair<std::set<double>,std::set<double> > priv = fst.Private(0,1);
 
 	  int sum = 0;
 	  for(int i = 0 ; i < config.size() ; ++i)
@@ -141,12 +149,13 @@ int main(int argc, char *argv[])
 	      RemoveInvariantColumns(&d2);
 	      cout << rep << '\t' << i << '\t';
 	      calcstats(d2,mincount);
-	      if ( i==0 ){ 
-		cout << '\t' << priv.first.size() << "\tnan" << "\tnan" << "\tnan" << endl;
+	      if ( i==0 && fstats ){ 
+		cout << '\t' << priv.first.size() << "\tnan" << "\tnan" << "\tnan" ;
 	      }
-	      if (i==1 ){
-		cout << '\t' << priv.second.size() << "\t" << shared.size() << "\t" << fixed.size() << "\t" << fst.HBK() << endl;
+	      if (i==1 && fstats ){
+		cout << '\t' << priv.second.size() << "\t" << shared.size() << "\t" << fixed.size() << "\t" << fst.HBK() ;
 	      }	
+	      cout << endl;
 	    }
 	}
       ++rep;
