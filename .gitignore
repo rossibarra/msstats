@@ -1,6 +1,8 @@
 src/.deps/
 src/mssfs
 src/msstatsMakefile
+Makefile
+src/msstats
 config.h
 config.log
 config.status
