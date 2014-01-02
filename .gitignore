@@ -1,3 +1,7 @@
+src/.deps/
+src/.msstats.cc.swp
+src/mssfs
+src/msstats
 Makefile
 config.h
 config.log
