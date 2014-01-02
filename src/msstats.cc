@@ -31,6 +31,7 @@
 #include <Sequence/PolyTableFunctions.hpp>
 #include <Sequence/Recombination.hpp>
 #include <otherstats.hpp>
+#include <Sequence/FST.hpp>
 
 using namespace std;
 using namespace Sequence;
