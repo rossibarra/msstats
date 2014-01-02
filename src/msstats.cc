@@ -97,8 +97,13 @@ int main(int argc, char *argv[])
 	    << "wallq\t"
 	    << "rosasrf\t"
 	    << "rosasru\t"
-	    << "zns"
-	    << endl;
+	    << "zns";
+  if(multipop)
+    {
+      std::cout << "\tunique\tshared\tfixed\tFst";
+    }	
+   std:cout<< endl;
+
   int rv;
   int rep=0;
 
@@ -107,6 +112,7 @@ int main(int argc, char *argv[])
       if(!multipop)
 	{
 	  calcstats(d,mincount);
+	  cout << endl;
 	}
       else
 	{
@@ -117,6 +123,13 @@ int main(int argc, char *argv[])
 	      exit(10);
 	    }
 	  */
+		
+	 // Do FST calcs
+	  FST fst(&d, config.size(), &config[0]);
+	 std::set<double> shared = fst.shared(0,1);
+	  std::set<double> fixed = fst.fixed(0,1);
+	  std::pair<std::set<double>,std::set<double> > priv = fst.Private(0,1);
+
 	  int sum = 0;
 	  for(int i = 0 ; i < config.size() ; ++i)
 	    {
@@ -128,8 +141,13 @@ int main(int argc, char *argv[])
 	      RemoveInvariantColumns(&d2);
 	      cout << rep << '\t' << i << '\t';
 	      calcstats(d2,mincount);
+	      if ( i==0 ){ 
+		cout << '\t' << priv.first.size() << "\tnan" << "\tnan" << "\tnan" << endl;
+	      }
+	      if (i==1 ){
+		cout << '\t' << priv.second.size() << "\t" << shared.size() << "\t" << fixed.size() << "\t" << fst.HBK() << endl;
+	      }	
 	    }
-	 FST fst(&d, config.size(), &config[0]);
 	}
       ++rep;
     } 
@@ -208,5 +226,4 @@ void calcstats(const SimData & d, const unsigned & mincount)
     {
       cout << strtod("NAN",NULL);
     }
-  cout << endl;
 }
