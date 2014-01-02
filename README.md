@@ -1,10 +1,19 @@
-msstats
-=======
+# msstats
 
-Calculate summary stats from Hudson's ms
+Calculates summary stats from Hudson's ms. Includes two programs:
+
 	msstats - read data from ms via stdin, calculate common summary statistics
+	mssfs - read data from ms via stdin, calculate the unfolded site frequency spectrum
 
+## Installation
 
+I find on Unix systems, the following is often necessary:
+
+PPFLAGS=-I$LIBSEQUENCE/include LDFLAGS=-L$LIBSEQUENCE/lib ./configure 
+
+where $LIBSEQUENCE is the directory into which [libsequence](https://github.com/RILAB/libsequence) has been installed. 
+
+## Original Copyright distributed with msstats 0.3.2
 
   Copyright (C) 2002 Kevin Thornton
 
