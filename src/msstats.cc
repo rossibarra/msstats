@@ -133,11 +133,17 @@ int main(int argc, char *argv[])
 	  */
 		
 	 // Do FST calcs
+	std::set<double> shared;
+	std::set<double> fixed;
+	double hbk;
+	std::pair<std::set<double>,std::set<double> > priv;
+	if(!d.empty()){
 		FST fst(&d, config.size(), &config[0]);
-		std::set<double> shared = fst.shared(0,1);
-	 	std::set<double> fixed = fst.fixed(0,1);
-	  	std::pair<std::set<double>,std::set<double> > priv = fst.Private(0,1);
-
+		shared = fst.shared(0,1);
+	 	fixed = fst.fixed(0,1);
+	  	priv = fst.Private(0,1);
+		hbk=fst.HBK();
+	 }
 	  int sum = 0;
 	  for(int i = 0 ; i < config.size() ; ++i)
 	    {
@@ -153,7 +159,7 @@ int main(int argc, char *argv[])
 		cout << '\t' << priv.first.size() << "\tnan" << "\tnan" << "\tnan" ;
 	      }
 	      if (i==1 && fstats ){
-		cout << '\t' << priv.second.size() << "\t" << shared.size() << "\t" << fixed.size() << "\t" << fst.HBK() ;
+		cout << '\t' << priv.second.size() << "\t" << shared.size() << "\t" << fixed.size() << "\t" << hbk ;
 	      }	
 	      cout << endl;
 	    }
