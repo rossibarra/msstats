@@ -29,7 +29,7 @@ For an alternative implementation of Fst in msstats (but not shared, fixed, etc.
 
 I find on Unix systems, the following is often necessary:
 
-	PPFLAGS=-I$LIBSEQUENCE/include LDFLAGS=-L$LIBSEQUENCE/lib ./configure 
+	CPPFLAGS=-I$LIBSEQUENCE/include LDFLAGS=-L$LIBSEQUENCE/lib ./configure 
 
 where $LIBSEQUENCE is the directory into which [libsequence](https://github.com/RILAB/libsequence) has been installed. 
 
